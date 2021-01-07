@@ -8,7 +8,7 @@ from django.views import generic
 # Create your views here.
 
 
-class indexView(generic.ListView):
+class IndexView(generic.ListView):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
         
@@ -17,13 +17,9 @@ class indexView(generic.ListView):
         return Question.objects.order_by('-pub_date')[:5]
 
 
-def detail(request, question_id):
-    # try:
-    #     question = Question.objects.get(pk=question_id)
-    # except Question.DoesNotExist:
-    #     raise Http404("Question does not exist")
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/detail.html', {'question': question})
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'polls/detail.html'
 
 
 def results(request, question_id):
