@@ -3,8 +3,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Question, Choice
 from django.urls import reverse
 from django.db.models import F
+from django.views import generic
 
 # Create your views here.
+
+
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
     context = {
@@ -35,9 +38,9 @@ def vote(request, question_id):
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except(KeyError, Choice.DoesNotExist):
-         # Redisplay the question voting form.
-        return render(request, 'polls/detail.html', 
-                      {'question': question, 
+        # Redisplay the question voting form.
+        return render(request, 'polls/detail.html',
+                      {'question': question,
                        'error_message': 'You didn\'t select a choice'})
     else:
         selected_choice.votes = F('votes') + 1
