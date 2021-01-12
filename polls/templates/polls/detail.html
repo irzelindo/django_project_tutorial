@@ -2,7 +2,7 @@
 {% if error_message %}
     <p><strong>error_message</strong></p>
 {% endif %}
-<form action="{% url 'polls:poll_votes' question.id %}" method="POST">
+<form action="{% url 'polls:poll_votes' question.pk %}" method="POST">
     {% csrf_token %}
     {% for choice in question.choice_set.all %}
         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value={{ choice.id }}>
