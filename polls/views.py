@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Question, Choice
@@ -11,10 +12,11 @@ from django.views import generic
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
-        
+
     def get_queryset(self):
         """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
+        return (Question.objects.filter(pub_date__lte=timezone.localtime())
+                .order_by('-pub_date')[:5])
 
 
 class DetailView(generic.DetailView):
